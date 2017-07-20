@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+	<style>
+		*{
+			padding: 0;
+			margin: 0;
+		}
+		html,body{
+			height: 100%;
+		}
+	</style>
+</head>
+<body>
+	<canvas width="1200" height="600"></canvas>
+</body>
+</html>
+<script src="num(1).js"></script>
+<script>
+	var can = document.querySelector("canvas");
+	var pen = can.getContext("2d");
+	var ball=[];
+	var color=["#02fa19","#fc05d6","#fde803","#8a9afb","#8a9afb"];
+	
+
+	function baozha (nums,sx,sy){
+		for(var i=0;i<nums.length;i++){
+			for(var j=0;j<nums[i].length;j++){
+				if(nums[i][j]==1){
+					ball.push({
+						x: j*24+sx,
+						y: i*24+sy,
+						s:0,
+						g:10,
+						xv:Math.pow(-1,parseInt(Math.random()*1000))*3,
+						yv:0,
+						c:"#02f7fa",
+						status:0,
+					});						
+				}
+			}
+		}
+	}
+	setInterval(function(){
+		pen.clearRect(0,0,1200,600);
+
+		for(var k=0;k<ball.length;k++){
+			if(ball[k].status==1){
+				ball[k].y+=ball[k].yv;
+				ball[k].yv+=ball[k].g;
+				ball[k].x+=ball[k].xv;
+				ball[k].c=color[parseInt(Math.random()*color.length)];
+				if(ball[k].y>=600){
+				ball[k].y=600;
+				ball[k].yv=-ball[k].yv*0.7;
+			}
+			}	
+		pen.beginPath();
+		pen.arc(ball[k].x + 550,ball[k].y+50,10,0,2*Math.PI,false);
+		pen.fillStyle=ball[k].c;
+		pen.fill();	
+		}
+	},1000/24)
+
+	var m = 0;
+	setInterval(function(){
+		pen.clearRect(0,0,1200,600);
+		var date = new Date;
+     	var s = (date.getSeconds()+"").split("");
+		m++;
+		if(m==10){
+			m=0;
+		}
+		for(var i=0;i<ball.length;i++){
+			ball[i].status=1;
+		}
+		for( var z = 0; z< s.length;z++){
+            baozha(digit[s[z]],z*200,100);
+        }
+	},1000)
+	
+</script>
